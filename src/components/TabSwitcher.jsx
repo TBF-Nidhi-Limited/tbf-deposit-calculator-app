@@ -7,9 +7,12 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { useMediaQuery } from '@mui/material';
+import { Button, IconButton, Skeleton, useMediaQuery } from '@mui/material';
 import themex from '../theme'
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+import { useNavigate,useParams } from 'react-router-dom';
+import HiveIcon from "@mui/icons-material/Hive";
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -43,7 +46,9 @@ function a11yProps(index) {
   };
 }
 
-export default function TabSwitcher() {
+export default function TabSwitcher(props) {
+  const history = useNavigate()
+  const params = useParams()
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -57,6 +62,14 @@ export default function TabSwitcher() {
 
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
 
+React.useEffect(
+  ()=>{
+    if(params){
+      const paramValue= props.data.findIndex(e=> e.params==params.calcname)
+      setValue(paramValue)
+    }
+  },[value]
+)
   return (
     <Box>
       <AppBar position="static" color='default'>
@@ -66,14 +79,17 @@ export default function TabSwitcher() {
           indicatorColor="secondary"
           textColor="secondary"
           variant={matches?'fullWidth':'scrollable'}
-          scrollButtons="auto"
-          allowScrollButtonsMobile
+          scrollButtons={true}   
+          allowScrollButtonsMobile={true}
           aria-label="full width tabs example"
         >
-          <Tab icon={<AddBusinessIcon/>} iconPosition="start" label="Item One" {...a11yProps(0)} />
-          <Tab icon={<AddBusinessIcon/>} iconPosition="start" label="Item Two" {...a11yProps(1)} />
-          <Tab icon={<AddBusinessIcon/>} iconPosition="start" label="Item Three" {...a11yProps(2)} />
-          <Tab icon={<AddBusinessIcon/>} iconPosition="start" label="Item Three" {...a11yProps(3)} />
+          {props.data.map((e,i)=>{
+            return (
+              <Tab sx={{width:'100%'}} icon={e.icon} iconPosition="start" label={e.name} {...a11yProps(i)} onClick={()=>{history(e.link)}} selectionFollowsFocus  />
+            )
+          })}
+
+
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -81,15 +97,23 @@ export default function TabSwitcher() {
         index={value}
         onChangeIndex={handleChangeIndex}
       >
-        <TabPanel value={value} index={0} dir={theme.direction}>
-          Item One
-        </TabPanel>
-        <TabPanel value={value} index={1} dir={theme.direction}>
-          Item Two
-        </TabPanel>
-        <TabPanel value={value} index={2} dir={theme.direction}>
-          Item Three
-        </TabPanel>
+          {props.data.map((e,i)=>{
+            return (
+              <TabPanel value={value} index={i} dir={theme.direction}>
+              <Box key={i}>
+                {e.name}
+                <Skeleton animation="wave" />
+                <Skeleton animation="wave" />
+                <Skeleton animation="wave" />
+                <Skeleton animation="wave" />
+                <Skeleton animation="wave" />
+    </Box>
+      
+            </TabPanel>
+            )
+          })}
+     
+   
       </SwipeableViews>
     </Box>
   );

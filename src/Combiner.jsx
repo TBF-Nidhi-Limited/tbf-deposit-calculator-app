@@ -8,8 +8,8 @@ const Combiner = (HigherComponent) => {
      
         return (
           <Fragment> 
-              <TopBar {...this.props}/>           
-            <HigherComponent {...this.props}/>
+              <TopBar/>           
+            <HigherComponent/>
           </Fragment>
         );
       }
