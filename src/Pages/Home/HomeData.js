@@ -1,4 +1,4 @@
-import { blue, green, red, yellow } from "@mui/material/colors";
+import { blue, green, orange, red, yellow } from "@mui/material/colors";
 import FolderIcon from "@mui/icons-material/Folder";
 import PageviewIcon from "@mui/icons-material/Pageview";
 import AssignmentIcon from "@mui/icons-material/Assignment";
@@ -6,8 +6,17 @@ import CalculateIcon from "@mui/icons-material/Calculate";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import PivotTableChartIcon from "@mui/icons-material/PivotTableChart";
 import HiveIcon from "@mui/icons-material/Hive";
-
+import HomeConfig from "./HomeConfig";
+import { Home } from "@mui/icons-material";
 const HomeData = [
+  {
+    name: "Home",
+    icon: <Home />,
+    color: orange,
+    link: "/calculator/home",
+    params:'home',
+    component:<HomeConfig/>
+  },
   {
     name: "Fixed Deposit",
     icon: <CalculateIcon />,
@@ -35,7 +44,8 @@ const HomeData = [
     color: yellow,
     link: "/calculator/gl",
     params:'gl'
-  },
+  }
+  
 ];
 
 export default HomeData;

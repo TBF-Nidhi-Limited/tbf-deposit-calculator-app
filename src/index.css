@@ -21,3 +21,6 @@ code {
   color:'white';
 }
 
+.css-rjft7h-MuiButtonBase-root-MuiBottomNavigationAction-root.Mui-selected{
+  color: red !important;
+}

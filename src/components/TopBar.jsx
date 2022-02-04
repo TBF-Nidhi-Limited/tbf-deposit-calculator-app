@@ -16,23 +16,25 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import ToggleDarkMode from "./ToggleDarkMode";
-import { Avatar, Switch } from "@mui/material";
+import { Avatar, Container, Switch, useMediaQuery } from "@mui/material";
 import MaterialUISwitch from "./ToggleSwitch";
 import logo from "../images/logo.png";
 import { deepOrange, red } from "@mui/material/colors";
-
-
-import theme from "../theme";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { ThemeContext } from "../contexts/ThemeContext";
-
+import { useTheme } from "@mui/material/styles";
+import HomeData from "../Pages/Home/HomeData";
 export default function TopBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
+  const [title, setTitle] = React.useState("Calculator");
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  const {darkMode,handleThemeChange}=React.useContext(ThemeContext)
-
+  const { darkMode, handleThemeChange } = React.useContext(ThemeContext);
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("sm"));
+  const history = useNavigate();
+  const params = useParams();
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -123,24 +125,49 @@ export default function TopBar() {
       </MenuItem>
     </Menu>
   );
-
+  React.useEffect(() => {
+    if (params) {
+      const paramValue = HomeData.findIndex((e) => e.params == params.calcname);
+      setTitle(HomeData[paramValue].name);
+    }
+  }, [params]);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="primary" enableColorOnDark>
-        <Toolbar>
-         
-          <Link to="/" style={{margin:'1rem 0',display:'flex',textDecoration:'none',alignItems:'center',color:'white'}}>
-            <Avatar src={logo} />
-            <Typography variant="h6" sx={{ marginLeft: 2 }}>
-              CALCULATOR
-            </Typography>
-          </Link>
+        <Container maxWidth={matches?'auto':'sm'}>
+          <Toolbar>
+            <Box
+              onClick={() => {
+                history("/calculator/home");
+              }}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                paddingY: 1,
+                cursor: "pointer",
+              }}
+            >
+              <Avatar
+                src={logo}
+                sx={{ width: { sx: 35, md: 45 }, height: { sx: 35, md: 45 } }}
+              />
+              <Typography
+                variant={matches ? "h6" : "button"}
+                sx={{ marginLeft: 2 }}
+              >
+                {title}
+              </Typography>
+            </Box>
 
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "flex" } }}>
-            <MaterialUISwitch onChange={() => handleThemeChange()} defaultChecked={darkMode}/>
-          </Box>
-        </Toolbar>
+            <Box sx={{ flexGrow: 1 }} />
+            <Box sx={{ display: { xs: "flex" } }}>
+              <MaterialUISwitch
+                onChange={() => handleThemeChange()}
+                defaultChecked={darkMode}
+              />
+            </Box>
+          </Toolbar>
+        </Container>
       </AppBar>
     </Box>
   );

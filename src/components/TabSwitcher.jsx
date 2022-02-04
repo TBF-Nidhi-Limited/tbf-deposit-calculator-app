@@ -1,16 +1,16 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import SwipeableViews from 'react-swipeable-views';
-import { useTheme } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import { Button, IconButton, Skeleton, useMediaQuery } from '@mui/material';
-import themex from '../theme'
-import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import { useNavigate,useParams } from 'react-router-dom';
+import * as React from "react";
+import PropTypes from "prop-types";
+import SwipeableViews from "react-swipeable-views";
+import { useTheme } from "@mui/material/styles";
+import AppBar from "@mui/material/AppBar";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import { Button, IconButton, Skeleton, useMediaQuery } from "@mui/material";
+import themex from "../theme";
+import AddBusinessIcon from "@mui/icons-material/AddBusiness";
+import { useNavigate, useParams } from "react-router-dom";
 import HiveIcon from "@mui/icons-material/Hive";
 
 function TabPanel(props) {
@@ -42,13 +42,13 @@ TabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `full-width-tab-${index}`,
-    'aria-controls': `full-width-tabpanel-${index}`,
+    "aria-controls": `full-width-tabpanel-${index}`,
   };
 }
 
 export default function TabSwitcher(props) {
-  const history = useNavigate()
-  const params = useParams()
+  const history = useNavigate();
+  const params = useParams();
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -59,61 +59,73 @@ export default function TabSwitcher(props) {
     setValue(index);
   };
   const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("sm"));
 
-  const matches = useMediaQuery(theme.breakpoints.up('sm'));
-
-React.useEffect(
-  ()=>{
-    if(params){
-      const paramValue= props.data.findIndex(e=> e.params==params.calcname)
-      setValue(paramValue)
+  React.useEffect(() => {
+    if (params) {
+      const paramValue = props.data.findIndex(
+        (e) => e.params == params.calcname
+      );
+      setValue(paramValue);
     }
-  },[value]
-)
+  }, [params]);
   return (
     <Box>
-      <AppBar position="static" color='default'>
+      <AppBar
+        position={matches ? "static" : "fixed"}
+        color="default"
+        sx={{ bottom:0,top:'auto' }}
+      >
         <Tabs
           value={value}
           onChange={handleChange}
           indicatorColor="secondary"
           textColor="secondary"
-          variant={matches?'fullWidth':'scrollable'}
-          scrollButtons={true}   
-          allowScrollButtonsMobile={true}
+          variant=   "fullWidth"
           aria-label="full width tabs example"
         >
-          {props.data.map((e,i)=>{
+          {props.data.map((e, i) => {
             return (
-              <Tab sx={{width:'100%'}} icon={e.icon} iconPosition="start" label={e.name} {...a11yProps(i)} onClick={()=>{history(e.link)}} selectionFollowsFocus  />
-            )
+              <Tab
+              sx={{minWidth:'20%'}}
+                icon={e.icon}
+                iconPosition={matches ? "start" : "top"}
+                label={matches ? e.name : e.params}
+                {...a11yProps(i)}
+                onClick={() => {
+                  history(e.link);
+                }}
+                selectionFollowsFocus
+              />
+            );
           })}
-
-
         </Tabs>
       </AppBar>
       <SwipeableViews
-        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
         index={value}
         onChangeIndex={handleChangeIndex}
       >
-          {props.data.map((e,i)=>{
-            return (
-              <TabPanel value={value} index={i} dir={theme.direction}>
+        {props.data.map((e, i) => {
+          return (
+            <TabPanel value={value} index={i} dir={theme.direction}>
               <Box key={i}>
-                {e.name}
-                <Skeleton animation="wave" />
-                <Skeleton animation="wave" />
-                <Skeleton animation="wave" />
-                <Skeleton animation="wave" />
-                <Skeleton animation="wave" />
-    </Box>
-      
+                {e.component ? (
+                  <>{e.component}</>
+                ) : (
+                  <>
+                    {e.name}
+                    <Skeleton animation="wave" />
+                    <Skeleton animation="wave" />
+                    <Skeleton animation="wave" />
+                    <Skeleton animation="wave" />
+                    <Skeleton animation="wave" />
+                  </>
+                )}
+              </Box>
             </TabPanel>
-            )
-          })}
-     
-   
+          );
+        })}
       </SwipeableViews>
     </Box>
   );

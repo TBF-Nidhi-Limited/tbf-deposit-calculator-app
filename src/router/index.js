@@ -23,9 +23,8 @@ const Router =()=>{
         <CssBaseline /> 
            <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Navigate to="/calculator" />} />
-              <Route exact path="/calculator" element={<Home/>}/>
-              <Route exact path="/calculator/:calcname" element={<Calculator/> }/>
+              <Route exact path="/calculator" element={<Navigate to="/calculator/home" />} />
+              <Route exact path="/calculator/:calcname" element={<Calculator/>}/>
             </Routes>
           </BrowserRouter>
         </ThemeProvider>
