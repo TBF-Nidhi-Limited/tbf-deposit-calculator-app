@@ -1,4 +1,5 @@
  import { createTheme, unstable_createMuiStrictModeTheme } from '@mui/material';
+import { cyan, green, orange, pink } from '@mui/material/colors';
 
  const mainTheme=(darkMode) =>{
 
@@ -19,9 +20,21 @@ const theme= createTheme({
         contrastText:'#ffffff',
       }
   },
+  components: {
+    MuiTabs: {
+      styleOverrides: {
+        indicator: {
+          height: 3,
+          top:{sm:0},
+        
+        },
+      },
+    },
+  },
   shape: {
     borderRadius: 8,
   },
+  
 
 });
 return theme
