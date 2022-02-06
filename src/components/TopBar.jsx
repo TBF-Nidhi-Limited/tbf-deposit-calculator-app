@@ -163,7 +163,7 @@ export default function TopBar() {
             <Box sx={{ display: { xs: "flex" } }}>
               <MaterialUISwitch
                 onChange={() => handleThemeChange()}
-                defaultChecked={darkMode}
+                defaultChecked={  JSON.parse(localStorage.getItem("darkMode")) || false}
               />
             </Box>
           </Toolbar>

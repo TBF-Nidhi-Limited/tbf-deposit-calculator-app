@@ -2,6 +2,7 @@
 import { cyan, green, orange, pink } from '@mui/material/colors';
 
  const mainTheme=(darkMode) =>{
+ console.log("🚀 ~ file: theme.js ~ line 5 ~ mainTheme ~ darkMode", darkMode)
 
 const theme= createTheme({
    

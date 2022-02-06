@@ -18,19 +18,20 @@ const HomeData = [
     component:<HomeConfig/>
   },
   {
-    name: "Fixed Deposit",
-    icon: <CalculateIcon />,
-    color: green,
-    link: "/calculator/fd",
-    params:'fd'
-  },
-  {
     name: "Recurring Deposit",
     icon: <EqualizerIcon />,
     color: red,
     link: "/calculator/rd",
     params:'rd'
   },
+  {
+    name: "Fixed Deposit",
+    icon: <CalculateIcon />,
+    color: green,
+    link: "/calculator/fd",
+    params:'fd'
+  },
+  
   {
     name: "Cumulative Deposit",
     icon: <PivotTableChartIcon />,
