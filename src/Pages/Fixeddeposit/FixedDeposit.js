@@ -47,9 +47,8 @@ const FixedDeposit = () => {
   };
   const CalculateAmount = (rate, interest, period) => {
     let time = period * 12;
-
-    console.log("🚀 ~ file: FixedDeposit.js ~ line 51 ~ CalculateAmount ~ totalamt", totalamt)
-    return totalamt.toLocaleString("en-IN");
+    // return totalamt.toLocaleString("en-IN");
+    return time
   };
   return (
     <Grid container spacing={3}>
