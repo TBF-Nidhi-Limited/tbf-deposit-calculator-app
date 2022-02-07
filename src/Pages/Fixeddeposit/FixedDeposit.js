@@ -47,7 +47,7 @@ const FixedDeposit = () => {
   };
   const CalculateAmount = (rate, interest, period) => {
     let time = period * 12;
-    let totalamt = ((rate * (interest / 100)) / 12) * time;
+
     console.log("🚀 ~ file: FixedDeposit.js ~ line 51 ~ CalculateAmount ~ totalamt", totalamt)
     return totalamt.toLocaleString("en-IN");
   };
