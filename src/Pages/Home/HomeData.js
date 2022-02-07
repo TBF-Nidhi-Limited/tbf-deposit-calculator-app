@@ -8,6 +8,7 @@ import PivotTableChartIcon from "@mui/icons-material/PivotTableChart";
 import HiveIcon from "@mui/icons-material/Hive";
 import HomeConfig from "./HomeConfig";
 import { Home } from "@mui/icons-material";
+import FixedDeposit from "../Fixeddeposit/FixedDeposit";
 const HomeData = [
   {
     name: "Home",
@@ -29,7 +30,8 @@ const HomeData = [
     icon: <CalculateIcon />,
     color: green,
     link: "/calculator/fd",
-    params:'fd'
+    params:'fd',
+    component: <FixedDeposit/>
   },
   
   {
