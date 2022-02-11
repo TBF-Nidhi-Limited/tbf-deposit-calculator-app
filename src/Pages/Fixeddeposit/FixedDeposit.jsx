@@ -39,38 +39,35 @@ const FixedDeposit = (props) => {
   const [interest, setInterest] = React.useState(data.interest);
   const [period, setPeriod] = React.useState(data.period);
 
-
-
   const marks = [
     {
       value: 0,
-      label: '0',
+      label: "0",
     },
     {
-      value: .5,
-      label: '6',
+      value: 0.5,
+      label: "6",
     },
     {
       value: 1,
-      label: '12',
+      label: "12",
     },
     {
       value: 1.5,
-      label: '18',
+      label: "18",
     },
     {
       value: 2,
-      label: '24',
+      label: "24",
     },
   ];
-
 
   function valuetext(value) {
     return `${value}°C`;
   }
-  
+
   function valueLabelFormat(value) {
-    return marks.findIndex((mark) => mark.value === value)*6 ;
+    return marks.findIndex((mark) => mark.value === value) * 6;
   }
 
   const handleSliderChange = (event, newValue) => {
@@ -94,25 +91,28 @@ const FixedDeposit = (props) => {
   const CalculateAmount = (rate, interest, period) => {
     if (data.type === "rd") {
       let time = period * 12;
-      let total_interest = Math.round((rate*(time*(time+1))*interest)/2400)
-      let total_amount = parseInt(total_interest) + parseInt(time*rate);
-      let total_invested = rate*time;
-      return { total_amount, total_interest ,total_invested};
+      let total_interest = Math.round(
+        (rate * (time * (time + 1)) * interest) / 2400
+      );
+      let total_amount = parseInt(total_interest) + parseInt(time * rate);
+      let total_invested = rate * time;
+      return { total_amount, total_interest, total_invested };
     } else if (data.type === "fd") {
       let time = period * 12;
       let total_interest = Math.round((rate * (interest / 100)) / 12);
       let total_amount = total_interest * time;
       let total_invested = rate;
-      return { total_amount, total_interest ,total_invested};
-    }
-     else if (data.type === "cd") {
+      return { total_amount, total_interest, total_invested };
+    } else if (data.type === "cd") {
       let time = period * 4;
- 
-      let initial_interest = Math.pow((1+((interest/100)/4)),time); 
-      let total_interest = Math.round(parseFloat(initial_interest * rate ) - parseFloat(rate))
-      let total_amount = Math.round(initial_interest * rate)
+
+      let initial_interest = Math.pow(1 + interest / 100 / 4, time);
+      let total_interest = Math.round(
+        parseFloat(initial_interest * rate) - parseFloat(rate)
+      );
+      let total_amount = Math.round(initial_interest * rate);
       let total_invested = rate;
-      return { total_amount, total_interest ,total_invested};
+      return { total_amount, total_interest, total_invested };
     }
   };
   return (
@@ -139,7 +139,7 @@ const FixedDeposit = (props) => {
                       defaultValue={100}
                       step={1}
                       max={20000}
-                      color={darkMode ? "warning" : "primary"}
+                      color={darkMode ? "secondary" : "primary"}
                       value={rate}
                       onChange={handleSliderChange}
                       aria-labelledby="input-slider"
@@ -149,7 +149,7 @@ const FixedDeposit = (props) => {
                     <FormControl
                       fullWidth
                       variant="standard"
-                      color={darkMode ? "warning" : "primary"}
+                      color={darkMode ? "secondary" : "primary"}
                     >
                       <Input
                         sx={{ fontSize: matches ? 30 : 20, textAlign: "right" }}
@@ -184,7 +184,7 @@ const FixedDeposit = (props) => {
                       defaultValue={8.5}
                       step={0.1}
                       max={9}
-                      color={darkMode ? "warning" : "primary"}
+                      color={darkMode ? "secondary" : "primary"}
                       value={typeof interest === "number" ? interest : 0}
                       onChange={handleinterestSliderChange}
                       aria-labelledby="input-slider"
@@ -194,12 +194,12 @@ const FixedDeposit = (props) => {
                     <FormControl
                       fullWidth
                       variant="standard"
-                      color={darkMode ? "warning" : "primary"}
+                      color={darkMode ? "secondary" : "primary"}
                     >
                       <Input
                         sx={{ fontSize: matches ? 30 : 20, textAlign: "right" }}
                         value={interest}
-                        type='number'
+                        type="number"
                         variant="filled"
                         onChange={handleinterestInputChange}
                         startAdornment={
@@ -225,19 +225,16 @@ const FixedDeposit = (props) => {
                   </Grid>
                   <Grid item xs={12} md={12} order={{ xs: 2, md: 1 }}>
                     <Slider
-                       valueLabelFormat={valueLabelFormat}
-                       getAriaValueText={valuetext}
+                      valueLabelFormat={valueLabelFormat}
+                      getAriaValueText={valuetext}
                       //  step={null}
-                       valueLabelDisplay="auto"
-                       marks={marks}
-
-
-                    
+                      valueLabelDisplay="auto"
+                      marks={marks}
                       min={0.5}
                       defaultValue={1}
                       step={0.5}
                       max={2}
-                      color={darkMode ? "warning" : "primary"}
+                      color={darkMode ? "secondary" : "primary"}
                       value={typeof period === "number" ? period : 0}
                       onChange={handleperiodSliderChange}
                       aria-labelledby="input-slider"
@@ -247,7 +244,7 @@ const FixedDeposit = (props) => {
                     <FormControl
                       fullWidth
                       variant="standard"
-                      color={darkMode ? "warning" : "primary"}
+                      color={darkMode ? "secondary" : "primary"}
                     >
                       <Input
                         sx={{ fontSize: matches ? 30 : 20, textAlign: "right" }}
@@ -279,22 +276,28 @@ const FixedDeposit = (props) => {
               <Paper
                 variant="outlined"
                 color="primary"
-                sx={{ padding: 0.5, bgcolor: red[600], color: "white" }}
+                sx={{
+                  padding: 0.5,
+                  bgcolor: red[darkMode ? 100 : 600],
+                  color: red[darkMode ? 600 : 50],
+                }}
               >
                 <Typography variant={matches ? "h6" : "button"}>
-                {data.type === "fd"?"Monthly Interest":" Interest Amount"}
+                  {data.type === "fd" ? "Monthly Interest" : " Interest Amount"}
                 </Typography>
-                <Divider />
+
                 <Typography
                   variant={matches ? "h4" : "h6"}
                   sx={{ marginY: matches ? 2 : 1 }}
                 >
-                  ₹
-                  {CalculateAmount(
-                    rate,
-                    interest,
-                    period
-                  ).total_interest.toLocaleString("en-IN")}
+                  <small>₹ </small>
+                  <strong>
+                    {CalculateAmount(
+                      rate,
+                      interest,
+                      period
+                    ).total_interest.toLocaleString("en-IN")}
+                  </strong>
                 </Typography>
               </Paper>
             </Grid>
@@ -309,24 +312,26 @@ const FixedDeposit = (props) => {
                 color="primary"
                 sx={{
                   padding: 0.5,
-                  bgcolor: !darkMode ? blue[600] : theme.palette.warning.main,
-                  color: "white",
+                  bgcolor: blue[darkMode ? 100 : 600],
+                  color: blue[darkMode ? 600 : 50],
                 }}
               >
                 <Typography variant={matches ? "h6" : "button"}>
                   Invested Amount
                 </Typography>
-                <Divider />
+
                 <Typography
                   variant={matches ? "h4" : "h6"}
                   sx={{ marginY: matches ? 2 : 1 }}
                 >
-                 ₹{" "}
-                  {CalculateAmount(
-                    rate,
-                    interest,
-                    period
-                  ).total_invested.toLocaleString("en-IN")}
+                  <small>₹ </small>
+                  <strong>
+                    {CalculateAmount(
+                      rate,
+                      interest,
+                      period
+                    ).total_invested.toLocaleString("en-IN")}
+                  </strong>
                 </Typography>
               </Paper>
             </Grid>
@@ -338,22 +343,30 @@ const FixedDeposit = (props) => {
             >
               <Paper
                 variant="outlined"
-                sx={{ padding: 0.5, bgcolor: green[600], color: "white" }}
+                sx={{
+                  padding: 0.5,
+                  bgcolor: green[darkMode ? 100 : 600],
+                  color: green[darkMode ? 600 : 50],
+                }}
               >
                 <Typography variant={matches ? "h6" : "button"}>
-                 {data.type === "fd"?"Total Yearly Interest":" Total Amount"}
+                  {data.type === "fd"
+                    ? "Total Yearly Interest"
+                    : " Total Amount"}
                 </Typography>
-                <Divider />
+
                 <Typography
                   variant={matches ? "h4" : "h6"}
                   sx={{ marginY: matches ? 2 : 1 }}
                 >
-                  ₹
-                  {CalculateAmount(
-                    rate,
-                    interest,
-                    period
-                  ).total_amount.toLocaleString("en-IN")}
+                  <small>₹ </small>
+                  <strong>
+                    {CalculateAmount(
+                      rate,
+                      interest,
+                      period
+                    ).total_amount.toLocaleString("en-IN")}
+                  </strong>
                 </Typography>
               </Paper>
             </Grid>
@@ -365,8 +378,14 @@ const FixedDeposit = (props) => {
             >
               <Paper variant="outlined" sx={{ padding: 0.5 }}>
                 <ChartData
-                  intrest={CalculateAmount(rate, interest, period).total_interest}
-                  invested={CalculateAmount(rate, interest, period).total_invested}
+                  type={data.type}
+                  intrest={
+                    CalculateAmount(rate, interest, period).total_interest
+                  }
+                  invested={
+                    CalculateAmount(rate, interest, period).total_invested
+                  }
+                  total={CalculateAmount(rate, interest, period).total_amount}
                   mode={darkMode}
                 />
               </Paper>

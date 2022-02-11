@@ -1,15 +1,15 @@
 import React from 'react';
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from "@mui/material/styles";
-import { deepOrange, green, orange, red, yellow } from '@mui/material/colors';
+import { blue, deepOrange, green, orange, red, yellow } from '@mui/material/colors';
 import Chart from 'react-apexcharts';
 
 
-const ChartData = ({intrest,invested,mode}) => {
+const ChartData = ({intrest,invested,mode,type,total}) => {
     const theme=useTheme()
 
-    const colorslight =  [theme.palette.primary.main, red[500]] 
-    const colorsdark =   [theme.palette.warning.light, red[500]] 
+    const colorslight =  [blue[500], red[500]] 
+    const colorsdark =    [blue[500], red[500]] 
 
 
 
@@ -93,7 +93,7 @@ const ChartData = ({intrest,invested,mode}) => {
         },
     };
 
-    const apexData = [invested,intrest];
+    const apexData = [invested,type=='fd'?total:intrest];
 
     return (
         <Chart options={apexOpts} series={apexData} type="pie" className="apex-charts mt-3" height={236} />

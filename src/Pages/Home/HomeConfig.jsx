@@ -41,7 +41,7 @@ const HomeConfig = () => {
                           avatar={
                             <Avatar
                               className="avatarinner"
-                              sx={{ bgcolor: e.color[600] }}
+                              sx={{ bgcolor: e.color[100],color:e.color[600] }}
                             
                             >
                               {e.icon}

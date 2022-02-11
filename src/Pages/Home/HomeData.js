@@ -1,4 +1,4 @@
-import { blue, green, orange, red, yellow } from "@mui/material/colors";
+import { blue, deepOrange, green, orange, red, yellow } from "@mui/material/colors";
 import FolderIcon from "@mui/icons-material/Folder";
 import PageviewIcon from "@mui/icons-material/Pageview";
 import AssignmentIcon from "@mui/icons-material/Assignment";
@@ -67,7 +67,7 @@ const HomeData = [
   {
     name: "Gold Loan",
     icon: <HiveIcon />,
-    color: yellow,
+    color: deepOrange,
     link: "/gl",
     params:'gl'
   }
