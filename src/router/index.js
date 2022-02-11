@@ -28,8 +28,8 @@ const Router = () => {
             </Route>
           </Routes> */}
           <Routes>
-              <Route exact path="/calculator" element={<Navigate to="/calculator/home"/>} />
-              <Route exact path="/calculator/:calcname" element={<Calculator/>}/>
+              <Route exact path="/" element={<Navigate to="/home"/>} />
+              <Route exact path="/:calcname" element={<Calculator/>}/>
             </Routes>
         </BrowserRouter>
       </ThemeProvider>

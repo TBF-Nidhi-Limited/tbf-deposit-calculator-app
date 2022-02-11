@@ -24,3 +24,27 @@ code {
 .css-rjft7h-MuiButtonBase-root-MuiBottomNavigationAction-root.Mui-selected{
   color: red !important;
 }
+.MuiBox-root .css-19kzrtu{
+padding: 10px!important;
+}
+.constructionPage{
+  text-align: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 10rem;
+}
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

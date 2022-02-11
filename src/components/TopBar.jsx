@@ -133,12 +133,12 @@ export default function TopBar() {
   }, [params]);
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" color="primary" enableColorOnDark>
+      <AppBar position="fixed" color="primary" enableColorOnDark>
         <Container maxWidth={matches?'auto':'sm'}>
           <Toolbar>
             <Box
               onClick={() => {
-                history("/calculator/home");
+                history("/home");
               }}
               sx={{
                 display: "flex",

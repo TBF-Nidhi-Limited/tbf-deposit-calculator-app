@@ -12,7 +12,7 @@ import themex from "../theme";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import { useNavigate, useParams } from "react-router-dom";
 import HiveIcon from "@mui/icons-material/Hive";
-
+import construction from '../images/construction.svg'
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -102,24 +102,29 @@ export default function TabSwitcher(props) {
         </Tabs>
       </AppBar>
       <SwipeableViews
+style={{padding:'0!important'}}
         axis={theme.direction === "rtl" ? "x-reverse" : "x"}
         index={value}
         onChangeIndex={handleChangeIndex}
+        disabled={true}
       >
         {props.data.map((e, i) => {
           return (
-            <TabPanel value={value} index={i} dir={theme.direction}>
+            <TabPanel value={value} index={i} dir={theme.direction} style={{padding:'0!important'}}>
               <Box key={i}>
                 {e.component ? (
                   <>{e.component}</>
                 ) : (
                   <>
-                    {e.name}
-                    <Skeleton animation="wave" />
-                    <Skeleton animation="wave" />
-                    <Skeleton animation="wave" />
-                    <Skeleton animation="wave" />
-                    <Skeleton animation="wave" />
+                   <Box className="constructionPage">
+                   <Typography variant={matches?'h4':'h6'}>
+                     Sorry!
+                     </Typography>
+                     <img src={construction}></img>
+                     <Typography variant={matches?'h6':'button'}>
+                       Gold Loan calculator is <strong>Under Construction</strong>
+                     </Typography>
+                   </Box>
                   </>
                 )}
               </Box>

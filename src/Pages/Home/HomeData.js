@@ -9,12 +9,33 @@ import HiveIcon from "@mui/icons-material/Hive";
 import HomeConfig from "./HomeConfig";
 import { Home } from "@mui/icons-material";
 import FixedDeposit from "../Fixeddeposit/FixedDeposit";
+
+const fixedDeposit={
+  rate: 1000,
+  period:1,
+  interest:8,
+  type:'fd'
+}
+const RecurringDeposit={
+  rate: 100,
+  period:1,
+  interest:8.5,
+  type:'rd'
+}
+const CumulativeDeposit={
+  rate: 1000,
+  period:1,
+  interest:8.33,
+  type:'cd'
+}
+
+
 const HomeData = [
   {
     name: "Home",
     icon: <Home />,
     color: orange,
-    link: "/calculator/home",
+    link: "/home",
     params:'home',
     component:<HomeConfig/>
   },
@@ -22,30 +43,32 @@ const HomeData = [
     name: "Recurring Deposit",
     icon: <EqualizerIcon />,
     color: red,
-    link: "/calculator/rd",
-    params:'rd'
+    link: "/rd",
+    params:'rd',
+    component: <FixedDeposit data={RecurringDeposit}/>
   },
   {
     name: "Fixed Deposit",
     icon: <CalculateIcon />,
     color: green,
-    link: "/calculator/fd",
+    link: "/fd",
     params:'fd',
-    component: <FixedDeposit/>
+    component: <FixedDeposit data= {fixedDeposit}/>
   },
   
   {
     name: "Cumulative Deposit",
     icon: <PivotTableChartIcon />,
     color: blue,
-    link: "/calculator/cd",
-    params:'cd'
+    link: "/cd",
+    params:'cd',
+    component: <FixedDeposit data={CumulativeDeposit}/>
   },
   {
     name: "Gold Loan",
     icon: <HiveIcon />,
     color: yellow,
-    link: "/calculator/gl",
+    link: "/gl",
     params:'gl'
   }
   
