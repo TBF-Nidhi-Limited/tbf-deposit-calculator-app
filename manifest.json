@@ -4,6 +4,7 @@
   "theme_color": "#000000",
   "background_color": "#ffffff",
   "display": "standalone",
+  "description":"Calculate your Investments",
   "scope": "/",
   "start_url": "/",
   "icons": [
