@@ -24,7 +24,7 @@ const HomeConfig = () => {
   return (
     <>
    
-        <Grid container spacing={3}>
+        <Grid container spacing={3} >
           {HomeData.map((e, i) => {
             return (
               e.name !== "Home" && (
