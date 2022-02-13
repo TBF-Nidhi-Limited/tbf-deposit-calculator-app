@@ -280,7 +280,7 @@ const DepositCalculator = (props) => {
                       >
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                           <DateRangePicker
-                            disablePast
+                          color='warning'
                             calendars={2}
                             value={value}
                             onChange={(newValue) => {

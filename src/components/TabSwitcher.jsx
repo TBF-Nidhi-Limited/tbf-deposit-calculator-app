@@ -12,7 +12,7 @@ import themex from "../theme";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import { useNavigate, useParams } from "react-router-dom";
 import HiveIcon from "@mui/icons-material/Hive";
-import construction from '../images/construction.svg'
+import construction from "../images/construction.svg";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -69,26 +69,29 @@ export default function TabSwitcher(props) {
       setValue(paramValue);
     }
   }, [params]);
+  console.log("🚀 ~ file: TabSwitcher.jsx ~ line 81 ~ TabSwitcher ~ value", value)
+
   return (
     <Box>
       <AppBar
         position={matches ? "static" : "fixed"}
         color="default"
-        sx={{ bottom:0,top:'auto' }}
+        sx={{ bottom: 0, top: "auto" }}
       >
         <Tabs
           value={value}
           onChange={handleChange}
           indicatorColor="secondary"
           textColor="secondary"
-          variant=   "fullWidth"
+          variant="fullWidth"
           aria-label="full width tabs example"
         >
           {props.data.map((e, i) => {
             return (
               <Tab
-              sx={{minWidth:'20%'}}
-                icon={e.icon}
+                sx={{ minWidth: "20%" }}
+                // icon={e.icon2 ? e.icon2 : e.icon}
+                icon={value===i?e.icon:e.icon2}
                 iconPosition={matches ? "start" : "top"}
                 label={matches ? e.name : e.params}
                 {...a11yProps(i)}
@@ -102,7 +105,7 @@ export default function TabSwitcher(props) {
         </Tabs>
       </AppBar>
       <SwipeableViews
-style={{padding:'0!important'}}
+        style={{ padding: "0!important" }}
         axis={theme.direction === "rtl" ? "x-reverse" : "x"}
         index={value}
         onChangeIndex={handleChangeIndex}
@@ -110,21 +113,27 @@ style={{padding:'0!important'}}
       >
         {props.data.map((e, i) => {
           return (
-            <TabPanel value={value} index={i} dir={theme.direction} style={{padding:'0!important'}}>
+            <TabPanel
+              value={value}
+              index={i}
+              dir={theme.direction}
+              style={{ padding: "0!important" }}
+            >
               <Box key={i}>
                 {e.component ? (
                   <>{e.component}</>
                 ) : (
                   <>
-                   <Box className="constructionPage">
-                   <Typography variant={matches?'h4':'h6'}>
-                     Sorry!
-                     </Typography>
-                     <img src={construction}></img>
-                     <Typography variant={matches?'h6':'button'}>
-                       Gold Loan calculator is <strong>Under Construction</strong>
-                     </Typography>
-                   </Box>
+                    <Box className="constructionPage">
+                      <Typography variant={matches ? "h4" : "h6"}>
+                        Sorry!
+                      </Typography>
+                      <img src={construction}></img>
+                      <Typography variant={matches ? "h6" : "button"}>
+                        {e.name} calculator is{" "}
+                        <strong>Under Construction</strong>
+                      </Typography>
+                    </Box>
                   </>
                 )}
               </Box>

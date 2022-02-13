@@ -1,3 +1,4 @@
+import { height } from "@mui/lab/node_modules/@mui/system";
 import { createTheme, unstable_createMuiStrictModeTheme } from "@mui/material";
 import { cyan, green, orange, pink } from "@mui/material/colors";
 
@@ -30,10 +31,37 @@ const mainTheme = (darkMode) => {
           },
         },
       },
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            color: darkMode ? "#ffffff" : undefined,
+          },
+        },
+      },
+      MuiSlider: {
+        styleOverrides: {
+          track: {
+            height: "10px",
+          },
+          rail: {
+            height: "10px",
+          },
+          thumb: {
+         color:darkMode?'#ffffff':'',
+         height:'25px',
+         width:'25px',
+         border:'2px solid #ffffff'
+          },
+        },
+      },
       MuiDateRangePickerDay: {
         styleOverrides: {
-          pickerView: {
-            backgroundColor: "black",
+
+          day : {
+            background: darkMode?"rgb(254 11 11)":'',
+          },
+          selected : {
+            background: darkMode?"rgb(254 11 11)":'',
           },
         },
       },

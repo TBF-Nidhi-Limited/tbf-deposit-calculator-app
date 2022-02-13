@@ -1,4 +1,11 @@
-import { blue, deepOrange, green, orange, red, yellow } from "@mui/material/colors";
+import {
+  blue,
+  deepOrange,
+  green,
+  orange,
+  red,
+  yellow,
+} from "@mui/material/colors";
 import FolderIcon from "@mui/icons-material/Folder";
 import PageviewIcon from "@mui/icons-material/Pageview";
 import AssignmentIcon from "@mui/icons-material/Assignment";
@@ -7,78 +14,91 @@ import EqualizerIcon from "@mui/icons-material/Equalizer";
 import PivotTableChartIcon from "@mui/icons-material/PivotTableChart";
 import HiveIcon from "@mui/icons-material/Hive";
 import HomeConfig from "./HomeConfig";
-import { Home } from "@mui/icons-material";
+import {
+  CalculateOutlined,
+  HiveOutlined,
+  Home,
+  HomeOutlined,
+  InsertChart,
+  InsertChartOutlined,
+  PieChart,
+  PieChartOutline,
+  PieChartOutlineOutlined,
+} from "@mui/icons-material";
 import DepositCalculator from "../DepositCalculator/DepositCalculator";
 
-const fixedDeposit={
+const fixedDeposit = {
   rate: 1000,
-  period:1,
-  interest:8,
-  type:'fd'
-}
-const RecurringDeposit={
+  period: 1,
+  interest: 8,
+  type: "fd",
+};
+const RecurringDeposit = {
   rate: 100,
-  period:1,
-  interest:8.5,
-  type:'rd'
-}
-const CumulativeDeposit={
+  period: 1,
+  interest: 8.5,
+  type: "rd",
+};
+const CumulativeDeposit = {
   rate: 1000,
-  period:1,
-  interest:8,
-  type:'cd'
-}
-const GoldLoan={
+  period: 1,
+  interest: 8,
+  type: "cd",
+};
+const GoldLoan = {
   rate: 1000,
-  period:1,
-  interest:11.5,
-  type:'gl'
-}
-
+  period: 1,
+  interest: 11.5,
+  type: "gl",
+};
 
 const HomeData = [
   {
     name: "Home",
     icon: <Home />,
+    icon2: <HomeOutlined />,
     color: orange,
     link: "/home",
-    params:'home',
-    component:<HomeConfig/>
+    params: "home",
+    component: <HomeConfig />,
   },
   {
     name: "Recurring Deposit",
-    icon: <EqualizerIcon />,
+    icon: <PieChart />,
+    icon2: <PieChartOutlineOutlined />,
     color: red,
     link: "/rd",
-    params:'rd',
-    component: <DepositCalculator data={RecurringDeposit}/>
+    params: "rd",
+    component: <DepositCalculator data={RecurringDeposit} />,
   },
   {
     name: "Fixed Deposit",
     icon: <CalculateIcon />,
+    icon2: <CalculateOutlined />,
     color: green,
     link: "/fd",
-    params:'fd',
-    component: <DepositCalculator data= {fixedDeposit}/>
+    params: "fd",
+    component: <DepositCalculator data={fixedDeposit} />,
   },
-  
+
   {
     name: "Cumulative Deposit",
-    icon: <PivotTableChartIcon />,
+    icon: <InsertChart />,
+    icon2: <InsertChartOutlined />,
     color: blue,
     link: "/cd",
-    params:'cd',
-    component: <DepositCalculator data={CumulativeDeposit}/>
+    params: "cd",
+    component: <DepositCalculator data={CumulativeDeposit} />,
   },
   {
     name: "Gold Loan",
     icon: <HiveIcon />,
+    icon2: <HiveOutlined />,
     color: deepOrange,
     link: "/gl",
-    params:'gl',
-    component: <DepositCalculator data={GoldLoan}/>
-  }
-  
+    params: "gl",
+    component: <DepositCalculator data={GoldLoan} />,
+  },
 ];
 
 export default HomeData;
