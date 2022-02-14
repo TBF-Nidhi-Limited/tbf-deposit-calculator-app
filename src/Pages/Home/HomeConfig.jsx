@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Card,
@@ -7,11 +7,12 @@ import {
   Container,
   Grid,
   IconButton,
+  Slide,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-
+import Grow from '@mui/material/Grow';
 import { useNavigate } from "react-router-dom";
 import HomeData from "./HomeData";
 
@@ -21,18 +22,25 @@ const HomeConfig = () => {
   const [hover, setHover] = useState(false);
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
+  const [checked, setChecked] = React.useState(false);
+  const containerRef = React.useRef(null);
 
-
+useEffect(()=>{
+  setTimeout(()=>{
+    setChecked(true)
+  },500)
+},[])
 
 
   return (
     <>
    
-        <Grid container spacing={3} >
+        <Grid container spacing={3}  sx={{paddingBottom:3}}>
           {HomeData.map((e, i) => {
             return (
               e.name !== "Home" && (
                 <>
+                  <Grow direction="up" in={checked} {...(checked ? { timeout: i*300 } : {})} >
                   <Grid item xs={12} md={6} key={i + e.name}>
                     <Card
                       key={i + e.color}
@@ -56,6 +64,8 @@ const HomeConfig = () => {
                       </CardActionArea>
                     </Card>
                   </Grid>
+                  </Grow>
+             
                 </>
               )
             );

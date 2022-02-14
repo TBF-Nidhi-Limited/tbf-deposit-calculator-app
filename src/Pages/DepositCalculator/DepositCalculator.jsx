@@ -15,6 +15,7 @@ import {
   MenuItem,
   Paper,
   Select,
+  Slide,
   Slider,
   Switch,
   TextField,
@@ -40,6 +41,8 @@ import {
   red,
   yellow,
 } from "@mui/material/colors";
+import Grow from "@mui/material/Grow";
+
 import ChartData from "./ChartData";
 import SwipeableEdgeDrawer from "../../components/SwipeDrawer";
 import daysToWeeks from "date-fns/daysToWeeks/index.js";
@@ -66,6 +69,14 @@ const DepositCalculator = (props) => {
     res.setDate(res.getDate() + value);
     return res;
   }
+  const [checked, setChecked] = React.useState(false);
+  const containerRef = React.useRef(null);
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      setChecked(true);
+    }, 500);
+  }, []);
 
   const marks = [
     {
@@ -180,105 +191,11 @@ const DepositCalculator = (props) => {
           />
           <Paper sx={{ padding: 1 }}>
             <Grid container item spacing={matches ? 3 : 1}>
-              <Grid item xs={12}>
-                <Paper variant="outlined" sx={{ padding: 2 }}>
-                  <Grid container spacing={matches ? 3 : 0} alignItems="center">
-                    <Grid item xs={8} md={12}>
-                      <Typography
-                        id="input-slider"
-                        variant={matches ? "h6" : "button"}
-                        gutterBottom
-                      >
-                        Investment Amount
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} md={10} order={{ xs: 2, md: 1 }}>
-                      <Slider
-                        valueLabelDisplay="auto"
-                        min={0}
-                        defaultValue={100}
-                        step={1}
-                        max={100000}
-                        color={darkMode ? "secondary" : "primary"}
-                        value={rate}
-                        onChange={handleSliderChange}
-                        aria-labelledby="input-slider"
-                      />
-                    </Grid>
-                    <Grid item xs={4} md={2} order={{ xs: 1, md: 2 }}>
-                      <FormControl
-                        fullWidth
-                        variant="standard"
-                        color={darkMode ? "secondary" : "primary"}
-                      >
-                        <Input
-                          type="number"
-                          sx={{
-                            fontSize: matches ? 30 : 20,
-                            textAlign: "right",
-                          }}
-                          value={rate}
-                          variant="filled"
-                          onChange={handleInputChange}
-                          startAdornment={
-                            <InputAdornment position="start">₹</InputAdornment>
-                          }
-                        />
-                      </FormControl>
-                    </Grid>
-                  </Grid>
-                </Paper>
-              </Grid>
-              <Grid item xs={12}>
-                <Paper variant="outlined" sx={{ padding: 2 }}>
-                  <Grid container spacing={matches ? 3 : 0} alignItems="center">
-                    <Grid item xs={8} md={12}>
-                      <Typography
-                        id="input-slider"
-                        variant={matches ? "h6" : "button"}
-                        gutterBottom
-                      >
-                        Interest Rate
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} md={10} order={{ xs: 2, md: 1 }}>
-                      <Slider
-                        valueLabelDisplay="auto"
-                        min={0}
-                        defaultValue={8.5}
-                        step={0.1}
-                        max={data.type==='gl'?18:12}
-                        color={darkMode ? "secondary" : "primary"}
-                        value={typeof interest === "number" ? interest : 0}
-                        onChange={handleinterestSliderChange}
-                        aria-labelledby="input-slider"
-                      />
-                    </Grid>
-                    <Grid item xs={4} md={2} order={{ xs: 1, md: 2 }}>
-                      <FormControl
-                        fullWidth
-                        variant="standard"
-                        color={darkMode ? "secondary" : "primary"}
-                      >
-                        <Input
-                          sx={{
-                            fontSize: matches ? 30 : 20,
-                            textAlign: "right",
-                          }}
-                          value={interest}
-                          type="number"
-                          variant="filled"
-                          onChange={handleinterestInputChange}
-                          endAdornment={
-                            <InputAdornment position="start">%</InputAdornment>
-                          }
-                        />
-                      </FormControl>
-                    </Grid>
-                  </Grid>
-                </Paper>
-              </Grid>
-              {data.type === "gl" ? (
+              <Grow
+                direction="up"
+                in={checked}
+                {...(checked ? { timeout: 500 } : {})}
+              >
                 <Grid item xs={12}>
                   <Paper variant="outlined" sx={{ padding: 2 }}>
                     <Grid
@@ -291,51 +208,175 @@ const DepositCalculator = (props) => {
                           id="input-slider"
                           variant={matches ? "h6" : "button"}
                           gutterBottom
-                          sx={{
-                            display: "flex",
-                            justifyContent: "start",
-                            alignItems: "center",
-                          }}
                         >
-                          Time Period
-                          <small>
-                            {data.type !== "gl" ? (
-                              "(months)"
-                            ) : (
-                              <>
-                                <FormGroup sx={{ marginLeft: 2 }}>
-                                  <FormControlLabel
-                                    sx={{ fontSize: "5px" }}
-                                    control={
-                                      <Switch
-                                        color={
-                                          darkMode ? "secondary" : "primary"
-                                        }
-                                        onChange={(e) =>
-                                          setIsdays(e.target.checked)
-                                        }
-                                        name="Days"
-                                        size="small"
-                                      />
-                                    }
-                                    label="Days"
-                                  />
-                                </FormGroup>
-                              </>
-                            )}
-                          </small>
+                          Investment Amount
                         </Typography>
                       </Grid>
-                      {!isdays && (
-                        <Grid
-                          item
-                          xs={12}
-                          md={10}
-                          order={{ xs: 2, md: 1 }}
-                          sx={{ marginTop: matches ? 0 : 2 }}
+                      <Grid item xs={12} md={10} order={{ xs: 2, md: 1 }}>
+                        <Slider
+                          valueLabelDisplay="auto"
+                          min={0}
+                          defaultValue={100}
+                          step={1}
+                          max={100000}
+                          color={darkMode ? "secondary" : "primary"}
+                          value={rate}
+                          onChange={handleSliderChange}
+                          aria-labelledby="input-slider"
+                        />
+                      </Grid>
+                      <Grid item xs={4} md={2} order={{ xs: 1, md: 2 }}>
+                        <FormControl
+                          fullWidth
+                          variant="standard"
+                          color={darkMode ? "secondary" : "primary"}
                         >
-                          <LocalizationProvider dateAdapter={AdapterDateFns}>
-                            {/* <DateRangePicker
+                          <Input
+                            type="number"
+                            sx={{
+                              fontSize: matches ? 30 : 20,
+                              textAlign: "right",
+                            }}
+                            value={rate}
+                            variant="filled"
+                            onChange={handleInputChange}
+                            startAdornment={
+                              <InputAdornment position="start">
+                                ₹
+                              </InputAdornment>
+                            }
+                          />
+                        </FormControl>
+                      </Grid>
+                    </Grid>
+                  </Paper>
+                </Grid>
+              </Grow>
+              <Grow
+                direction="up"
+                in={checked}
+                {...(checked ? { timeout: 2 * 500 } : {})}
+              >
+                <Grid item xs={12}>
+                  <Paper variant="outlined" sx={{ padding: 2 }}>
+                    <Grid
+                      container
+                      spacing={matches ? 3 : 0}
+                      alignItems="center"
+                    >
+                      <Grid item xs={8} md={12}>
+                        <Typography
+                          id="input-slider"
+                          variant={matches ? "h6" : "button"}
+                          gutterBottom
+                        >
+                          Interest Rate
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={12} md={10} order={{ xs: 2, md: 1 }}>
+                        <Slider
+                          valueLabelDisplay="auto"
+                          min={0}
+                          defaultValue={8.5}
+                          step={0.1}
+                          max={data.type === "gl" ? 18 : 12}
+                          color={darkMode ? "secondary" : "primary"}
+                          value={typeof interest === "number" ? interest : 0}
+                          onChange={handleinterestSliderChange}
+                          aria-labelledby="input-slider"
+                        />
+                      </Grid>
+                      <Grid item xs={4} md={2} order={{ xs: 1, md: 2 }}>
+                        <FormControl
+                          fullWidth
+                          variant="standard"
+                          color={darkMode ? "secondary" : "primary"}
+                        >
+                          <Input
+                            sx={{
+                              fontSize: matches ? 30 : 20,
+                              textAlign: "right",
+                            }}
+                            value={interest}
+                            type="number"
+                            variant="filled"
+                            onChange={handleinterestInputChange}
+                            endAdornment={
+                              <InputAdornment position="start">
+                                %
+                              </InputAdornment>
+                            }
+                          />
+                        </FormControl>
+                      </Grid>
+                    </Grid>
+                  </Paper>
+                </Grid>
+              </Grow>
+
+              <Grow
+                direction="up"
+                in={checked}
+                {...(checked ? { timeout: 3 * 500 } : {})}
+              >
+                {data.type === "gl" ? (
+                  <Grid item xs={12}>
+                    <Paper variant="outlined" sx={{ padding: 2 }}>
+                      <Grid
+                        container
+                        spacing={matches ? 3 : 0}
+                        alignItems="center"
+                      >
+                        <Grid item xs={8} md={12}>
+                          <Typography
+                            id="input-slider"
+                            variant={matches ? "h6" : "button"}
+                            gutterBottom
+                            sx={{
+                              display: "flex",
+                              justifyContent: "start",
+                              alignItems: "center",
+                            }}
+                          >
+                            Time Period
+                            <small>
+                              {data.type !== "gl" ? (
+                                "(months)"
+                              ) : (
+                                <>
+                                  <FormGroup sx={{ marginLeft: 2 }}>
+                                    <FormControlLabel
+                                      sx={{ fontSize: "5px" }}
+                                      control={
+                                        <Switch
+                                          color={
+                                            darkMode ? "secondary" : "primary"
+                                          }
+                                          onChange={(e) =>
+                                            setIsdays(e.target.checked)
+                                          }
+                                          name="Days"
+                                          size="small"
+                                        />
+                                      }
+                                      label="Days"
+                                    />
+                                  </FormGroup>
+                                </>
+                              )}
+                            </small>
+                          </Typography>
+                        </Grid>
+                        {!isdays && (
+                          <Grid
+                            item
+                            xs={12}
+                            md={10}
+                            order={{ xs: 2, md: 1 }}
+                            sx={{ marginTop: matches ? 0 : 2 }}
+                          >
+                            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                              {/* <DateRangePicker
                                    color="warning"
                                    calendars={2}
                                    value={value}
@@ -375,298 +416,308 @@ const DepositCalculator = (props) => {
                                      </React.Fragment>
                                    )}
                                  /> */}
-                            <Box
-                              sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                flexDirection: matches ? "row" : "column",
-                              }}
-                            >
-                              <DatePicker
-                                label="Start Date"
-                                inputFormat="dd/MM/yyyy"
-                                value={startdate}
-                                onChange={(newValue) => {
-                                  setStartdate(newValue);
-                                }}
-                                renderInput={(params) => (
-                                  <TextField
-                                    readOnly={true}
-                                    {...params}
-                                    color={darkMode ? "secondary" : "primary"}
-                                    sx={{
-                                      width: matches ? undefined : "100%",
-                                      marginBottom: matches ? 0 : 2.5,
-                                    }}
-                                  />
-                                )}
-                              />
-                              <Typography
+                              <Box
                                 sx={{
-                                  mx: 2,
-                                  display: matches ? "block" : "none",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  flexDirection: matches ? "row" : "column",
                                 }}
                               >
-                                to
-                              </Typography>
-                              <DatePicker
-                                label="End Date"
-                                inputFormat="dd/MM/yyyy"
-                                value={enddate}
-                                minDate={startdate}
-                                onChange={(newValue) => {
-                                  setEnddate(newValue);
-                                }}
-                                renderInput={(params) => (
-                                  <TextField
-                                    readOnly={true}
-                                    {...params}
-                                    color={darkMode ? "secondary" : "primary"}
-                                    sx={{ width: matches ? undefined : "100%" }}
-                                  />
-                                )}
-                              />
-                            </Box>
-                          </LocalizationProvider>
-                        </Grid>
-                      )}
+                                <DatePicker
+                                  label="Start Date"
+                                  inputFormat="dd/MM/yyyy"
+                                  value={startdate}
+                                  onChange={(newValue) => {
+                                    setStartdate(newValue);
+                                  }}
+                                  renderInput={(params) => (
+                                    <TextField
+                                      readOnly={true}
+                                      {...params}
+                                      color={darkMode ? "secondary" : "primary"}
+                                      sx={{
+                                        width: matches ? undefined : "100%",
+                                        marginBottom: matches ? 0 : 2.5,
+                                      }}
+                                    />
+                                  )}
+                                />
+                                <Typography
+                                  sx={{
+                                    mx: 2,
+                                    display: matches ? "block" : "none",
+                                  }}
+                                >
+                                  to
+                                </Typography>
+                                <DatePicker
+                                  label="End Date"
+                                  inputFormat="dd/MM/yyyy"
+                                  value={enddate}
+                                  minDate={startdate}
+                                  onChange={(newValue) => {
+                                    setEnddate(newValue);
+                                  }}
+                                  renderInput={(params) => (
+                                    <TextField
+                                      readOnly={true}
+                                      {...params}
+                                      color={darkMode ? "secondary" : "primary"}
+                                      sx={{
+                                        width: matches ? undefined : "100%",
+                                      }}
+                                    />
+                                  )}
+                                />
+                              </Box>
+                            </LocalizationProvider>
+                          </Grid>
+                        )}
 
-                      <Grid item xs={4} md={2} order={{ xs: 1, md: 2 }}>
-                        <FormControl
-                          fullWidth
-                          variant="standard"
-                          color={darkMode ? "secondary" : "primary"}
-                        >
-                          <Input
-                            sx={{
-                              fontSize: matches ? 30 : 20,
-                              textAlign: "right",
-                            }}
-                            value={days}
-                            readOnly={!isdays}
-                            type="number"
-                            variant="filled"
-                            onChange={handledaysInputChange}
-                            endAdornment={
-                              <InputAdornment position="start">
-                                Days
-                              </InputAdornment>
-                            }
+                        <Grid item xs={4} md={2} order={{ xs: 1, md: 2 }}>
+                          <FormControl
+                            fullWidth
+                            variant="standard"
+                            color={darkMode ? "secondary" : "primary"}
+                          >
+                            <Input
+                              sx={{
+                                fontSize: matches ? 30 : 20,
+                                textAlign: "right",
+                              }}
+                              value={days}
+                              readOnly={!isdays}
+                              type="number"
+                              variant="filled"
+                              onChange={handledaysInputChange}
+                              endAdornment={
+                                <InputAdornment position="start">
+                                  Days
+                                </InputAdornment>
+                              }
+                            />
+                          </FormControl>
+                        </Grid>
+                      </Grid>
+                    </Paper>
+                  </Grid>
+                ) : (
+                  <Grid item xs={12}>
+                    <Paper variant="outlined" sx={{ padding: 2 }}>
+                      <Grid
+                        container
+                        spacing={matches ? 3 : 0}
+                        alignItems="center"
+                      >
+                        <Grid item xs={8} md={12}>
+                          <Typography
+                            id="input-slider"
+                            variant={matches ? "h6" : "button"}
+                            gutterBottom
+                          >
+                            Time Period <small>(months)</small>
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} md={10} order={{ xs: 2, md: 1 }}>
+                          <Slider
+                            valueLabelFormat={valueLabelFormat}
+                            getAriaValueText={valuetext}
+                            //  step={null}
+                            valueLabelDisplay="auto"
+                            marks={marks}
+                            min={0.5}
+                            defaultValue={1}
+                            step={0.5}
+                            max={2}
+                            color={darkMode ? "secondary" : "primary"}
+                            value={typeof period === "number" ? period : 0}
+                            onChange={handleperiodSliderChange}
+                            aria-labelledby="input-slider"
                           />
-                        </FormControl>
+                        </Grid>
+                        <Grid item xs={4} md={2} order={{ xs: 1, md: 2 }}>
+                          <FormControl
+                            fullWidth
+                            variant="standard"
+                            color={darkMode ? "secondary" : "primary"}
+                          >
+                            <Input
+                              sx={{
+                                fontSize: matches ? 30 : 20,
+                                textAlign: "right",
+                              }}
+                              readOnly={true}
+                              value={period * 12}
+                              type="number"
+                              variant="filled"
+                              onChange={handleperiodInputChange}
+                              endAdornment={
+                                <InputAdornment position="start">
+                                  Months
+                                </InputAdornment>
+                              }
+                            />
+                          </FormControl>
+                        </Grid>
                       </Grid>
-                    </Grid>
-                  </Paper>
-                </Grid>
-              ) : (
-                <Grid item xs={12}>
-                  <Paper variant="outlined" sx={{ padding: 2 }}>
-                    <Grid
-                      container
-                      spacing={matches ? 3 : 0}
-                      alignItems="center"
-                    >
-                      <Grid item xs={8} md={12}>
-                        <Typography
-                          id="input-slider"
-                          variant={matches ? "h6" : "button"}
-                          gutterBottom
-                        >
-                          Time Period <small>(months)</small>
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12} md={10} order={{ xs: 2, md: 1 }}>
-                        <Slider
-                          valueLabelFormat={valueLabelFormat}
-                          getAriaValueText={valuetext}
-                          //  step={null}
-                          valueLabelDisplay="auto"
-                          marks={marks}
-                          min={0.5}
-                          defaultValue={1}
-                          step={0.5}
-                          max={2}
-                          color={darkMode ? "secondary" : "primary"}
-                          value={typeof period === "number" ? period : 0}
-                          onChange={handleperiodSliderChange}
-                          aria-labelledby="input-slider"
-                        />
-                      </Grid>
-                      <Grid item xs={4} md={2} order={{ xs: 1, md: 2 }}>
-                        <FormControl
-                          fullWidth
-                          variant="standard"
-                          color={darkMode ? "secondary" : "primary"}
-                        >
-                          <Input
-                            sx={{
-                              fontSize: matches ? 30 : 20,
-                              textAlign: "right",
-                            }}
-                            readOnly={true}
-                            value={period * 12}
-                            type="number"
-                            variant="filled"
-                            onChange={handleperiodInputChange}
-                            endAdornment={
-                              <InputAdornment position="start">
-                                Months
-                              </InputAdornment>
-                            }
-                          />
-                        </FormControl>
-                      </Grid>
-                    </Grid>
-                  </Paper>
-                </Grid>
-              )}
+                    </Paper>
+                  </Grid>
+                )}
+              </Grow>
             </Grid>
           </Paper>
         </Grid>
-        <Grid item xs={12} lg={4}>
-          <Paper sx={{ padding: 1 }}>
-            <Grid container item spacing={matches ? 2 : 1}>
-              <Grid
-                item
-                xs={6}
-                sx={{ textAlign: "center" }}
-                order={matches ? 1 : 4}
-              >
-                <Paper
-                  variant="outlined"
-                  color="primary"
-                  sx={{
-                    padding: 0.5,
-                    bgcolor: red[!darkMode ? 100 : 600],
-                    color: red[!darkMode ? 600 : 50],
-                  }}
-                >
-                  <Typography variant={matches ? "h6" : "button"}>
-                    {data.type === "fd"
-                      ? "Monthly Interest"
-                      : " Interest Amount"}
-                  </Typography>
+        <Grid item xs={12} lg={4}  ref={containerRef}>
+          <Grow
+            direction={matches?"left":"up"}
+            in={checked}
 
-                  <Typography
-                    variant={matches ? "h4" : "h6"}
-                    sx={{ marginY: matches ? 2 : 1 }}
-                  >
-                    <small>₹ </small>
-                    <strong>
-                      {CalculateAmount(
-                        rate,
-                        interest,
-                        data.type === "gl" ? days : period
-                      ).total_interest.toLocaleString("en-IN")}
-                    </strong>
-                  </Typography>
-                </Paper>
-              </Grid>
-              <Grid
-                item
-                xs={6}
-                sx={{ textAlign: "center" }}
-                order={matches ? 2 : 3}
-              >
-                <Paper
-                  variant="outlined"
-                  color="primary"
-                  sx={{
-                    padding: 0.5,
-                    bgcolor: blue[!darkMode ? 100 : 600],
-                    color: blue[!darkMode ? 600 : 50],
-                  }}
+            {...(checked ? { timeout: 500*3 } : {})}
+          >
+            <Paper sx={{ padding: 1 }}>
+              <Grid container item spacing={matches ? 2 : 1}>
+                <Grid
+                  item
+                  xs={6}
+                  sx={{ textAlign: "center" }}
+                  order={matches ? 1 : 4}
                 >
-                  <Typography variant={matches ? "h6" : "button"}>
-                    Invested Amount
-                  </Typography>
-
-                  <Typography
-                    variant={matches ? "h4" : "h6"}
-                    sx={{ marginY: matches ? 2 : 1 }}
+                  <Paper
+                    variant="outlined"
+                    color="primary"
+                    sx={{
+                      padding: 0.5,
+                      bgcolor: red[!darkMode ? 100 : 600],
+                      color: red[!darkMode ? 600 : 50],
+                    }}
                   >
-                    <small>₹ </small>
-                    <strong>
-                      {CalculateAmount(
-                        rate,
-                        interest,
-                        data.type === "gl" ? days : period
-                      ).total_invested.toLocaleString("en-IN")}
-                    </strong>
-                  </Typography>
-                </Paper>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                sx={{ textAlign: "center" }}
-                order={matches ? 3 : 2}
-              >
-                <Paper
-                  variant="outlined"
-                  sx={{
-                    padding: 0.5,
-                    bgcolor: green[!darkMode ? 100 : 600],
-                    color: green[!darkMode ? 600 : 50],
-                  }}
+                    <Typography variant={matches ? "h6" : "button"}>
+                      {data.type === "fd"
+                        ? "Monthly Interest"
+                        : " Interest Amount"}
+                    </Typography>
+
+                    <Typography
+                      variant={matches ? "h4" : "h6"}
+                      sx={{ marginY: matches ? 2 : 1 }}
+                    >
+                      <small>₹ </small>
+                      <strong>
+                        {CalculateAmount(
+                          rate,
+                          interest,
+                          data.type === "gl" ? days : period
+                        ).total_interest.toLocaleString("en-IN")}
+                      </strong>
+                    </Typography>
+                  </Paper>
+                </Grid>
+                <Grid
+                  item
+                  xs={6}
+                  sx={{ textAlign: "center" }}
+                  order={matches ? 2 : 3}
                 >
-                  <Typography variant={matches ? "h6" : "button"}>
-                    {data.type === "fd"
-                      ? "Total Yearly Interest"
-                      : " Total Amount"}
-                  </Typography>
-
-                  <Typography
-                    variant={matches ? "h4" : "h6"}
-                    sx={{ marginY: matches ? 2 : 1 }}
+                  <Paper
+                    variant="outlined"
+                    color="primary"
+                    sx={{
+                      padding: 0.5,
+                      bgcolor: blue[!darkMode ? 100 : 600],
+                      color: blue[!darkMode ? 600 : 50],
+                    }}
                   >
-                    <small>₹ </small>
-                    <strong>
-                      {CalculateAmount(
-                        rate,
-                        interest,
-                        data.type === "gl" ? days : period
-                      ).total_amount.toLocaleString("en-IN")}
-                    </strong>
-                  </Typography>
-                </Paper>
+                    <Typography variant={matches ? "h6" : "button"}>
+                      Invested Amount
+                    </Typography>
+
+                    <Typography
+                      variant={matches ? "h4" : "h6"}
+                      sx={{ marginY: matches ? 2 : 1 }}
+                    >
+                      <small>₹ </small>
+                      <strong>
+                        {CalculateAmount(
+                          rate,
+                          interest,
+                          data.type === "gl" ? days : period
+                        ).total_invested.toLocaleString("en-IN")}
+                      </strong>
+                    </Typography>
+                  </Paper>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  sx={{ textAlign: "center" }}
+                  order={matches ? 3 : 2}
+                >
+                  <Paper
+                    variant="outlined"
+                    sx={{
+                      padding: 0.5,
+                      bgcolor: green[!darkMode ? 100 : 600],
+                      color: green[!darkMode ? 600 : 50],
+                    }}
+                  >
+                    <Typography variant={matches ? "h6" : "button"}>
+                      {data.type === "fd"
+                        ? "Total Yearly Interest"
+                        : " Total Amount"}
+                    </Typography>
+
+                    <Typography
+                      variant={matches ? "h4" : "h6"}
+                      sx={{ marginY: matches ? 2 : 1 }}
+                    >
+                      <small>₹ </small>
+                      <strong>
+                        {CalculateAmount(
+                          rate,
+                          interest,
+                          data.type === "gl" ? days : period
+                        ).total_amount.toLocaleString("en-IN")}
+                      </strong>
+                    </Typography>
+                  </Paper>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  sx={{ textAlign: "center" }}
+                  order={matches ? 4 : 4}
+                >
+                  <Paper variant="outlined" sx={{ padding: 0.5 }}>
+                    <ChartData
+                      type={data.type}
+                      intrest={
+                        CalculateAmount(
+                          rate,
+                          interest,
+                          data.type == "gl" ? days : period
+                        ).total_interest
+                      }
+                      invested={
+                        CalculateAmount(
+                          rate,
+                          interest,
+                          data.type == "gl" ? days : period
+                        ).total_invested
+                      }
+                      total={
+                        CalculateAmount(
+                          rate,
+                          interest,
+                          data.type == "gl" ? days : period
+                        ).total_amount
+                      }
+                      mode={darkMode}
+                    />
+                  </Paper>
+                </Grid>
               </Grid>
-              <Grid
-                item
-                xs={12}
-                sx={{ textAlign: "center" }}
-                order={matches ? 4 : 4}
-              >
-                <Paper variant="outlined" sx={{ padding: 0.5 }}>
-                  <ChartData
-                    type={data.type}
-                    intrest={
-                      CalculateAmount(
-                        rate,
-                        interest,
-                        data.type == "gl" ? days : period
-                      ).total_interest
-                    }
-                    invested={
-                      CalculateAmount(
-                        rate,
-                        interest,
-                        data.type == "gl" ? days : period
-                      ).total_invested
-                    }
-                    total={
-                      CalculateAmount(
-                        rate,
-                        interest,
-                        data.type == "gl" ? days : period
-                      ).total_amount
-                    }
-                    mode={darkMode}
-                  />
-                </Paper>
-              </Grid>
-            </Grid>
-          </Paper>
+            </Paper>
+          </Grow>
         </Grid>
       </Grid>
     </>
