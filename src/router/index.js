@@ -21,12 +21,6 @@ const Router = () => {
       <ThemeProvider theme={mainTheme(darkMode)}>
         <CssBaseline />
         <BrowserRouter>
-          {/* <Routes>
-            <Route path="*" element={<Navigate to="/calculator/home"/>} />
-            <Route path="calculator" element={<Calculator />}>
-              <Route path=":calcname" element={<Calculator />} />
-            </Route>
-          </Routes> */}
           <Routes>
               <Route exact path="/" element={<Navigate to="/home"/>} />
               <Route exact path="/:calcname" element={<Calculator/>}/>

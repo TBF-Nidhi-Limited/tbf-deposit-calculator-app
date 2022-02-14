@@ -1,14 +1,22 @@
 import * as React from "react";
 import { styled, alpha } from "@mui/material/styles";
 import {
+  Alert,
+  AlertTitle,
   Divider,
   FilledInput,
   FormControl,
+  FormControlLabel,
+  FormGroup,
   Grid,
   Input,
   InputAdornment,
+  InputLabel,
+  MenuItem,
   Paper,
+  Select,
   Slider,
+  Switch,
   TextField,
   Typography,
   useMediaQuery,
@@ -35,6 +43,8 @@ import {
 import ChartData from "./ChartData";
 import SwipeableEdgeDrawer from "../../components/SwipeDrawer";
 import daysToWeeks from "date-fns/daysToWeeks/index.js";
+import { DatePicker, DesktopDatePicker } from "@mui/lab";
+import Alerts from "../../components/Alerts";
 
 const DepositCalculator = (props) => {
   const theme = useTheme();
@@ -43,9 +53,12 @@ const DepositCalculator = (props) => {
   const { darkMode, handleThemeChange } = React.useContext(ThemeContext);
 
   const [rate, setRate] = React.useState(data.rate);
+  const [trigger, setTrigger] = React.useState(false);
   const [interest, setInterest] = React.useState(data.interest);
   const [period, setPeriod] = React.useState(data.period);
   const [value, setValue] = React.useState([new Date(), addDaysToDate(10)]);
+  const [startdate, setStartdate] = React.useState(new Date());
+  const [enddate, setEnddate] = React.useState(addDaysToDate(10));
   const [days, setDays] = React.useState(0);
   const [totalIntrest, setTotalIntrest] = React.useState(0);
   function addDaysToDate(value) {
@@ -103,6 +116,10 @@ const DepositCalculator = (props) => {
   const handleperiodInputChange = (event) => {
     setPeriod(event.target.value === "" ? "" : Number(event.target.value));
   };
+  const handledaysInputChange = (event) => {
+    setDays(event.target.value === "" ? "" : Number(event.target.value));
+  };
+  const [isdays, setIsdays] = React.useState(false);
   const CalculateAmount = (rate, interest, period) => {
     if (data.type === "rd") {
       let time = period * 12;
@@ -139,10 +156,16 @@ const DepositCalculator = (props) => {
     }
   };
   React.useEffect(() => {
-    if (value[0] && value[1] && value) {
-      setDays((value[1].getTime() - value[0].getTime()) / (1000 * 3600 * 24));
+    if (startdate && enddate) {
+      setDays(
+        parseInt(
+          Math.round(
+            (enddate.getTime() - startdate.getTime()) / (1000 * 3600 * 24)
+          )
+        )
+      );
     }
-  }, [value]);
+  }, [startdate, enddate]);
   React.useEffect(() => {
     setTotalIntrest(CalculateAmount(rate, interest, days).total_interest);
   }, [days || rate]);
@@ -151,6 +174,10 @@ const DepositCalculator = (props) => {
     <>
       <Grid container spacing={matches ? 3 : 1}>
         <Grid item xs={12} lg={8}>
+          <Alerts
+            trigger={trigger}
+            data={"Date Cannot be greater than start Date"}
+          />
           <Paper sx={{ padding: 1 }}>
             <Grid container item spacing={matches ? 3 : 1}>
               <Grid item xs={12}>
@@ -171,7 +198,7 @@ const DepositCalculator = (props) => {
                         min={0}
                         defaultValue={100}
                         step={1}
-                        max={20000}
+                        max={100000}
                         color={darkMode ? "secondary" : "primary"}
                         value={rate}
                         onChange={handleSliderChange}
@@ -220,7 +247,7 @@ const DepositCalculator = (props) => {
                         min={0}
                         defaultValue={8.5}
                         step={0.1}
-                        max={15}
+                        max={data.type==='gl'?18:12}
                         color={darkMode ? "secondary" : "primary"}
                         value={typeof interest === "number" ? interest : 0}
                         onChange={handleinterestSliderChange}
@@ -264,63 +291,146 @@ const DepositCalculator = (props) => {
                           id="input-slider"
                           variant={matches ? "h6" : "button"}
                           gutterBottom
+                          sx={{
+                            display: "flex",
+                            justifyContent: "start",
+                            alignItems: "center",
+                          }}
                         >
                           Time Period
                           <small>
-                            {data.type !== "gl" ? "(months)" : "(days)"}{" "}
+                            {data.type !== "gl" ? (
+                              "(months)"
+                            ) : (
+                              <>
+                                <FormGroup sx={{ marginLeft: 2 }}>
+                                  <FormControlLabel
+                                    sx={{ fontSize: "5px" }}
+                                    control={
+                                      <Switch
+                                        color={
+                                          darkMode ? "secondary" : "primary"
+                                        }
+                                        onChange={(e) =>
+                                          setIsdays(e.target.checked)
+                                        }
+                                        name="Days"
+                                        size="small"
+                                      />
+                                    }
+                                    label="Days"
+                                  />
+                                </FormGroup>
+                              </>
+                            )}
                           </small>
                         </Typography>
                       </Grid>
-                      <Grid
-                        item
-                        xs={12}
-                        md={10}
-                        order={{ xs: 2, md: 1 }}
-                        sx={{ marginTop: matches ? 0 : 2 }}
-                      >
-                        <LocalizationProvider dateAdapter={AdapterDateFns}>
-                          <DateRangePicker
-                          color='warning'
-                            calendars={2}
-                            value={value}
-                            onChange={(newValue) => {
-                              setValue(newValue);
-                            }}
-                            renderInput={(startProps, endProps) => (
-                              <React.Fragment>
-                                <Box
-                                  sx={{
-                                    display: "flex",
-                                    alignItems: matches ? "center" : undefined,
-                                    flexDirection: matches ? "row" : "column",
-                                    justifContent: "stretch",
-                                    width: matches ? "auto" : "100%",
-                                  }}
-                                >
+                      {!isdays && (
+                        <Grid
+                          item
+                          xs={12}
+                          md={10}
+                          order={{ xs: 2, md: 1 }}
+                          sx={{ marginTop: matches ? 0 : 2 }}
+                        >
+                          <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            {/* <DateRangePicker
+                                   color="warning"
+                                   calendars={2}
+                                   value={value}
+                                   onChange={(newValue) => {
+                                     setValue(newValue);
+                                   }}
+                                   renderInput={(startProps, endProps) => (
+                                     <React.Fragment>
+                                       <Box
+                                         sx={{
+                                           display: "flex",
+                                           alignItems: matches ? "center" : undefined,
+                                           flexDirection: matches ? "row" : "column",
+                                           justifContent: "stretch",
+                                           width: matches ? "auto" : "100%",
+                                         }}
+                                       >
+                                         <TextField
+                                           {...startProps}
+                                           label="Start Date"
+                                           sx={{ marginBottom: matches ? 0 : 2 }}
+                                         />
+                                         <Box
+                                           sx={{
+                                             mx: 2,
+                                             display: matches ? "block" : "none",
+                                           }}
+                                         >
+                                           to
+                                         </Box>
+                                         <TextField
+                                           {...endProps}
+                                           label="End Date"
+                                           sx={{ marginBottom: matches ? 0 : 2 }}
+                                         />
+                                       </Box>
+                                     </React.Fragment>
+                                   )}
+                                 /> */}
+                            <Box
+                              sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                flexDirection: matches ? "row" : "column",
+                              }}
+                            >
+                              <DatePicker
+                                label="Start Date"
+                                inputFormat="dd/MM/yyyy"
+                                value={startdate}
+                                onChange={(newValue) => {
+                                  setStartdate(newValue);
+                                }}
+                                renderInput={(params) => (
                                   <TextField
-                                    {...startProps}
-                                    label="Start Date"
-                                    sx={{ marginBottom: matches ? 0 : 2 }}
-                                  />
-                                  <Box
+                                    readOnly={true}
+                                    {...params}
+                                    color={darkMode ? "secondary" : "primary"}
                                     sx={{
-                                      mx: 2,
-                                      display: matches ? "block" : "none",
+                                      width: matches ? undefined : "100%",
+                                      marginBottom: matches ? 0 : 2.5,
                                     }}
-                                  >
-                                    to
-                                  </Box>
-                                  <TextField
-                                    {...endProps}
-                                    label="End Date"
-                                    sx={{ marginBottom: matches ? 0 : 2 }}
                                   />
-                                </Box>
-                              </React.Fragment>
-                            )}
-                          />
-                        </LocalizationProvider>
-                      </Grid>
+                                )}
+                              />
+                              <Typography
+                                sx={{
+                                  mx: 2,
+                                  display: matches ? "block" : "none",
+                                }}
+                              >
+                                to
+                              </Typography>
+                              <DatePicker
+                                label="End Date"
+                                inputFormat="dd/MM/yyyy"
+                                value={enddate}
+                                minDate={startdate}
+                                onChange={(newValue) => {
+                                  setEnddate(newValue);
+                                }}
+                                renderInput={(params) => (
+                                  <TextField
+                                    readOnly={true}
+                                    {...params}
+                                    color={darkMode ? "secondary" : "primary"}
+                                    sx={{ width: matches ? undefined : "100%" }}
+                                  />
+                                )}
+                              />
+                            </Box>
+                          </LocalizationProvider>
+                        </Grid>
+                      )}
+
                       <Grid item xs={4} md={2} order={{ xs: 1, md: 2 }}>
                         <FormControl
                           fullWidth
@@ -333,9 +443,10 @@ const DepositCalculator = (props) => {
                               textAlign: "right",
                             }}
                             value={days}
+                            readOnly={!isdays}
                             type="number"
                             variant="filled"
-                            onChange={handleperiodInputChange}
+                            onChange={handledaysInputChange}
                             endAdornment={
                               <InputAdornment position="start">
                                 Days

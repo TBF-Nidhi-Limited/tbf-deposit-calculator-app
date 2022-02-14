@@ -50,7 +50,7 @@ const mainTheme = (darkMode) => {
          color:darkMode?'#ffffff':'',
          height:'25px',
          width:'25px',
-         border:'2px solid #ffffff'
+         border:'3px solid #ffffff'
           },
         },
       },

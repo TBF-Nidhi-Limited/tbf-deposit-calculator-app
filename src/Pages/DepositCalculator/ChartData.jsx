@@ -96,7 +96,7 @@ const ChartData = ({intrest,invested,mode,type,total}) => {
     const apexData = [invested,type=='fd'?total:intrest];
 
     return (
-        <Chart options={apexOpts} series={apexData} type="pie" className="apex-charts mt-3" height={236} />
+        <Chart options={apexOpts} series={apexData} type="donut" className="apex-charts mt-3" height={236} />
     );
 };
 
