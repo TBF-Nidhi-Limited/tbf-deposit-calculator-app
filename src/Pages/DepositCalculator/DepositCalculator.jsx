@@ -4,6 +4,7 @@ import {
   Alert,
   AlertTitle,
   Divider,
+  Fade,
   FilledInput,
   FormControl,
   FormControlLabel,
@@ -50,6 +51,13 @@ import { DatePicker, DesktopDatePicker } from "@mui/lab";
 import Alerts from "../../components/Alerts";
 
 const DepositCalculator = (props) => {
+  const [checked, setChecked] = React.useState(false);
+  const containerRef = React.useRef(null);
+  React.useEffect(() => {
+    setTimeout(() => {
+      setChecked(true);
+    }, 300);
+  }, []);
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
   const { data } = props;
@@ -69,14 +77,9 @@ const DepositCalculator = (props) => {
     res.setDate(res.getDate() + value);
     return res;
   }
-  const [checked, setChecked] = React.useState(false);
-  const containerRef = React.useRef(null);
 
-  React.useEffect(() => {
-    setTimeout(() => {
-      setChecked(true);
-    }, 500);
-  }, []);
+
+
 
   const marks = [
     {
@@ -143,7 +146,8 @@ const DepositCalculator = (props) => {
     } else if (data.type === "fd") {
       let time = period * 12;
       let total_interest = Math.round((rate * (interest / 100)) / 12);
-      let total_amount = total_interest * time;
+      let total_interest1 = (rate * (interest / 100)) / 12;
+      let total_amount = Math.round(total_interest1 * time);
       let total_invested = rate;
       return { total_amount, total_interest, total_invested };
     } else if (data.type === "cd") {
@@ -194,7 +198,7 @@ const DepositCalculator = (props) => {
               <Grow
                 direction="up"
                 in={checked}
-                {...(checked ? { timeout: 500 } : {})}
+                {...(checked ? { timeout: 300 } : {})}
               >
                 <Grid item xs={12}>
                   <Paper variant="outlined" sx={{ padding: 2 }}>
@@ -255,7 +259,7 @@ const DepositCalculator = (props) => {
               <Grow
                 direction="up"
                 in={checked}
-                {...(checked ? { timeout: 2 * 500 } : {})}
+                {...(checked ? { timeout: 2 * 300 } : {})}
               >
                 <Grid item xs={12}>
                   <Paper variant="outlined" sx={{ padding: 2 }}>
@@ -317,7 +321,7 @@ const DepositCalculator = (props) => {
               <Grow
                 direction="up"
                 in={checked}
-                {...(checked ? { timeout: 3 * 500 } : {})}
+                {...(checked ? { timeout: 3 * 300 } : {})}
               >
                 {data.type === "gl" ? (
                   <Grid item xs={12}>
@@ -568,11 +572,11 @@ const DepositCalculator = (props) => {
           </Paper>
         </Grid>
         <Grid item xs={12} lg={4}  ref={containerRef}>
-          <Grow
+          <Fade
             direction={matches?"left":"up"}
             in={checked}
 
-            {...(checked ? { timeout: 500*3 } : {})}
+            {...(checked ? { timeout: 300*3 } : {})}
           >
             <Paper sx={{ padding: 1 }}>
               <Grid container item spacing={matches ? 2 : 1}>
@@ -717,7 +721,7 @@ const DepositCalculator = (props) => {
                 </Grid>
               </Grid>
             </Paper>
-          </Grow>
+          </Fade>
         </Grid>
       </Grid>
     </>

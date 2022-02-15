@@ -47,21 +47,28 @@ const mainTheme = (darkMode) => {
             height: "10px",
           },
           thumb: {
-         color:darkMode?'#ffffff':'',
-         height:'25px',
-         width:'25px',
-         border:'3px solid #ffffff'
+            color: darkMode ? "#ffffff" : "",
+            height: "25px",
+            width: "25px",
+            border: "3px solid #ffffff",
           },
         },
       },
+      MuiCardHeader: {
+        styleOverrides: {
+          avatar: {
+            marginRight: 0,
+          },
+        },
+      },
+  
       MuiDateRangePickerDay: {
         styleOverrides: {
-
-          day : {
-            background: darkMode?"rgb(254 11 11)":'',
+          day: {
+            background: "rgb(254 11 11)",
           },
-          selected : {
-            background: darkMode?"rgb(254 11 11)":'',
+          selected: {
+            background: "rgb(254 11 11)",
           },
         },
       },
