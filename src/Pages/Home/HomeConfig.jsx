@@ -28,27 +28,41 @@ const HomeConfig = (props) => {
   const [checked, setChecked] = React.useState(false);
   const containerRef = React.useRef(null);
   const [finishStatus, setfinishStatus] = useState(false);
+  const [isBackButtonClicked, setBackbuttonPress] = useState(false)
 
-  // const onBackButtonEvent = (e) => {
-  //   // e.preventDefault();
-  //   if (!finishStatus) {
-  //     if (window.confirm("Do you want to close the app?")) {
-  //       window.history.length=0
-  //       window.opener=null;
-  //       window.open('','_self');
-  //       window.close();
-  //       setfinishStatus(true);
-  //       props.history.push("/");
-  //     } else {
-    
-  //       window.history.pushState(null, null, window.location.pathname);
-  //       setfinishStatus(false);
-  //       window.close();
-  //     }
-  //   }
-  // };
+  const onBackButtonEvent = (e) => {
+    e.preventDefault();
+    if (!isBackButtonClicked) {
+
+      if (window.confirm("Do you want to close?")) {
+        setBackbuttonPress(true)
+        props.history.go('/')
+        window.close()
+      } else {
+        window.history.pushState(null, null, window.location.pathname);
+        setBackbuttonPress(false)
+      }
+    }
+  }
 
 
+
+
+  useEffect(() => {
+    window.history.pushState(null, null, window.location.pathname);
+    window.addEventListener('popstate', onBackButtonEvent);
+
+    //logic for showing popup warning on page refresh
+    window.onbeforeunload = function () {
+
+      return "Data will be lost if you leave the page, are you sure?";
+    };
+    return () => {
+      window.removeEventListener('popstate', onBackButtonEvent);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {
@@ -57,6 +71,7 @@ const HomeConfig = (props) => {
 
     
   }, []);
+  console.log("🚀 ~ file: HomeConfig.jsx ~ line 63 ~ useEffect ~ window.history", window.history)
 
   return (
     <>
