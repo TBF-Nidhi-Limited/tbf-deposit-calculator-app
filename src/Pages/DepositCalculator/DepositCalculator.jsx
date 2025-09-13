@@ -281,7 +281,7 @@ const DepositCalculator = (props) => {
                         <Slider
                           valueLabelDisplay="auto"
                           min={0}
-                          defaultValue={8.5}
+                          defaultValue={9}
                           step={0.1}
                           max={data.type === "gl" ? 18 : 12}
                           color={darkMode ? "secondary" : "primary"}
