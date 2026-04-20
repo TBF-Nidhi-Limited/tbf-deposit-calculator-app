@@ -62,6 +62,10 @@ const DepositCalculator = (props) => {
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
   const { data } = props;
   const { darkMode, handleThemeChange } = React.useContext(ThemeContext);
+  const amountLabel =
+    data.type === "gl" ? "Loan Amount" : "Investment Amount";
+  const principalAmountLabel =
+    data.type === "gl" ? "Loan Amount" : "Invested Amount";
 
   const [rate, setRate] = React.useState(data.rate);
   const [trigger, setTrigger] = React.useState(false);
@@ -213,7 +217,7 @@ const DepositCalculator = (props) => {
                           variant={matches ? "h6" : "button"}
                           gutterBottom
                         >
-                          Investment Amount
+                          {amountLabel}
                         </Typography>
                       </Grid>
                       <Grid item xs={12} md={10} order={{ xs: 2, md: 1 }}>
@@ -632,7 +636,7 @@ const DepositCalculator = (props) => {
                     }}
                   >
                     <Typography variant={matches ? "h6" : "button"}>
-                      Invested Amount
+                      {principalAmountLabel}
                     </Typography>
 
                     <Typography
