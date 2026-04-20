@@ -70,7 +70,7 @@ const ChartData = ({intrest,invested,mode,type,total}) => {
         legend: {
             show: false,
         },
-        labels: ['Invested', 'Interest'],
+        labels: [type === 'gl' ? 'Loan' : 'Invested', 'Interest'],
         colors: !mode ? colorslight:colorsdark,
         xaxis: {
             type: 'string',

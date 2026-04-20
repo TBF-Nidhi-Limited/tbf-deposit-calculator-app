@@ -30,7 +30,7 @@ import DepositCalculator from "../DepositCalculator/DepositCalculator";
 const fixedDeposit = {
   rate: 1000,
   period: 1,
-  interest: 8,
+  interest: 9,
   type: "fd",
 };
 const RecurringDeposit = {
@@ -42,7 +42,7 @@ const RecurringDeposit = {
 const CumulativeDeposit = {
   rate: 1000,
   period: 1,
-  interest: 8,
+  interest: 9,
   type: "cd",
 };
 const GoldLoan = {
